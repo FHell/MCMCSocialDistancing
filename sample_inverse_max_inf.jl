@@ -24,6 +24,10 @@ mc_step_SIR!(cut_g, cut_EL, ρ_epidemic, ρ_temp; β=β, γ=γ, tsteps=tsteps, n
 metropolis!(cut_g, cut_EL, ρ_epidemic, Int(1E4); β=β, γ=γ, tsteps=tsteps, n_initial=n_initial, ν=5)
 
 sample_interval = Int(1E4)
+if "long" in ARGS
+    println("Long run")
+    sample_interval *= 100
+end
 
 # Warm up the sampler
 sample_array_wu = [metropolis!(cut_g, cut_EL, ρ_epidemic, sample_interval; β=β, γ=γ, tsteps=tsteps, n_initial=n_initial, ν=10) for i in 1:100]
