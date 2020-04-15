@@ -17,5 +17,4 @@ echo "------------------------------------------------------------"
 
 module load julia/1.3.0
 module load hpc/2015
-julia sample_inverse_max_inf.jl long
 julia sample_inverse_mean_mi.jl long
