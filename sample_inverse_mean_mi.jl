@@ -28,8 +28,8 @@ for i in 1:Nref
     s_ρ_rand[i] = ρ_epidemic(cut_g, β=β, γ=γ, tsteps=tsteps, n_initial=n_initial)
 end
 
-mc_step_SIR!(cut_g, cut_EL, ρ_epidemic, ρ_temp; β=β, γ=γ, tsteps=tsteps, n_initial=n_initial)
-metropolis!(cut_g, cut_EL, ρ_epidemic, Int(1E2); β=β, γ=γ, tsteps=tsteps, n_initial=n_initial, ν=1E4)
+#mc_step_SIR!(cut_g, cut_EL, ρ_epidemic, ρ_temp; β=β, γ=γ, tsteps=tsteps, n_initial=n_initial)
+#metropolis!(cut_g, cut_EL, ρ_epidemic, Int(1E2); β=β, γ=γ, tsteps=tsteps, n_initial=n_initial, ν=1E4)
 
 sample_interval = Int(1E2)
 if "long" in ARGS
@@ -38,10 +38,16 @@ if "long" in ARGS
 end
 
 # Temperature Schedule:
-sample_array_wu1 = [metropolis!(cut_g, cut_EL, ρ_epidemic, sample_interval; β=β, γ=γ, tsteps=tsteps, n_initial=n_initial, ν=1E1) for i in 1:10]
+sample_array_wu1 = [metropolis!(cut_g, cut_EL, ρ_epidemic, sample_interval; β=β, γ=γ, tsteps=tsteps, n_initial=n_initial, ν=1E1) for i in 1:50]
 sample_array_wu2 = [metropolis!(cut_g, cut_EL, ρ_epidemic, sample_interval; β=β, γ=γ, tsteps=tsteps, n_initial=n_initial, ν=1E2) for i in 1:50]
 sample_array_wu3 = [metropolis!(cut_g, cut_EL, ρ_epidemic, sample_interval; β=β, γ=γ, tsteps=tsteps, n_initial=n_initial, ν=1E3) for i in 1:50]
-sample_array_wu4 = [metropolis!(cut_g, cut_EL, ρ_epidemic, sample_interval; β=β, γ=γ, tsteps=tsteps, n_initial=n_initial, ν=1E4) for i in 1:50]
+sample_array_wu4 = [metropolis!(cut_g, cut_EL, ρ_epidemic, sample_interval; β=β, γ=γ, tsteps=tsteps, n_initial=n_initial, ν=1E4) for i in 1:500]
+
+using BSON
+
+bson("data.bson", g = g, sa = sample_array_wu4, cut_ratio = cut_ratio, β = β, γ = γ, tsteps=tsteps, n_initial=n_initial)
+
+# b_data = BSON.load("data.bson")[:sa]
 
 # take 100 samples with a spacing of sample_interval
 # sample_array = [metropolis!(cut_g, cut_EL, ρ_epidemic, sample_interval; β=β, γ=γ, tsteps=tsteps, n_initial=n_initial, ν=1E4) for i in 1:100]
@@ -52,8 +58,8 @@ sample_array_wu4 = [metropolis!(cut_g, cut_EL, ρ_epidemic, sample_interval; β=
 # println((mean(s_ρ_wu), mean(s_ρ_wu)+std(s_ρ_wu), mean(s_ρ_wu)-std(s_ρ_wu)))
 # println((mean(s_ρ), mean(s_ρ)+std(s_ρ), mean(s_ρ)-std(s_ρ)))
 
-I = [mean([epidemic(s[1], rand(1:nv(g),n_initial), tsteps; β=β, γ=γ)[1] for i in 1:1000]) for s in sample_array_wu4]
-mean(I)
-cut_g_r, cut_EL_r = initialize_graph!(g, Int(round(cut_ratio * ne(g))))
-I_rand = [mean([epidemic(initialize_graph!(g, Int(round(cut_ratio * ne(g))))[1], rand(1:nv(g),n_initial), tsteps; β=β, γ=γ)[1] for i in 1:1000]) for i in 1:100]
-mean(I_rand)
+# I = [mean([epidemic(s[1], rand(1:nv(g),n_initial), tsteps; β=β, γ=γ)[1] for i in 1:1000]) for s in b_data]
+# mean(I)
+# cut_g_r, cut_EL_r = initialize_graph!(g, Int(round(cut_ratio * ne(g))))
+# I_rand = [mean([epidemic(initialize_graph!(g, Int(round(cut_ratio * ne(g))))[1], rand(1:nv(g),n_initial), tsteps; β=β, γ=γ)[1] for i in 1:1000]) for i in 1:100]
+# mean(I_rand)
