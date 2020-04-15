@@ -3,7 +3,7 @@
 
 import Pkg
 Pkg.activate(".")
-Pkg.instantiate()
+# Pkg.instantiate()
 
 using LightGraphs
 using Statistics
@@ -46,6 +46,10 @@ sample_array_wu4 = [metropolis!(cut_g, cut_EL, ρ_epidemic, sample_interval; β=
 using BSON
 
 bson("data.bson", g = g, sa = sample_array_wu4, cut_ratio = cut_ratio, β = β, γ = γ, tsteps=tsteps, n_initial=n_initial)
+
+# I2 = [-log(s[3])*30. for s in sample_array_wu4]
+
+println(mean[-log(s[3])*30. for s in sample_array_wu4])
 
 # b_data = BSON.load("data.bson")[:sa]
 
