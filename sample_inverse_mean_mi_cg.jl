@@ -18,7 +18,7 @@ end
 g = complete_graph(100)
 cut_ratio = 0.95
 cut_g, cut_EL = initialize_graph!(g, Int(round(cut_ratio * ne(g))))
-β = 0.02; γ = 0.02; tsteps=100; n_initial=10
+β = 0.02; γ = 0.02; tsteps=100; n_initial=1
 ρ_temp = ρ_epidemic(cut_g, β=β, γ=γ, tsteps=tsteps, n_initial=n_initial)
 
 Nref = 100
@@ -53,4 +53,4 @@ end
 
 bson("data_cg_$i.bson", g = g, sa = sample_array_wu4, cut_ratio = cut_ratio, β = β, γ = γ, tsteps=tsteps, n_initial=n_initial, sample_interval=sample_interval)
 
-println(mean[-log(s[3])*30. for s in sample_array_wu4])
+println((mean[-log(s[3])*30. for s in sample_array_wu4]))

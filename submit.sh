@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --qos=priority
+#SBATCH --qos=short
 #SBATCH --job-name=dev_run
 #SBATCH --account=coen
 #SBATCH --output=MCMCepi-%j-%N.out
