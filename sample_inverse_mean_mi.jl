@@ -18,7 +18,7 @@ end
 g = barabasi_albert(100,10)
 cut_ratio = 0.8
 cut_g, cut_EL = initialize_graph!(g, Int(round(cut_ratio * ne(g))))
-β = 0.02; γ = 0.02; tsteps=100; n_initial=1
+β = 0.02; γ = 0.02; tsteps=1000; n_initial=1
 ρ_temp = ρ_epidemic(cut_g, β=β, γ=γ, tsteps=tsteps, n_initial=n_initial)
 
 Nref = 100
