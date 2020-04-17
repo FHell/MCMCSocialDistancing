@@ -45,25 +45,12 @@ sample_array_wu4 = [metropolis!(cut_g, cut_EL, ρ_epidemic, sample_interval; β=
 
 using BSON
 
-bson("data.bson", g = g, sa = sample_array_wu4, cut_ratio = cut_ratio, β = β, γ = γ, tsteps=tsteps, n_initial=n_initial)
+i = 1
+while isfile("data_$i.bson")
+    global i
+    i += 1
+end
 
-# I2 = [-log(s[3])*30. for s in sample_array_wu4]
+bson("data_$i.bson", g = g, sa = sample_array_wu4, cut_ratio = cut_ratio, β = β, γ = γ, tsteps=tsteps, n_initial=n_initial, sample_interval=sample_interval)
 
 println(mean[-log(s[3])*30. for s in sample_array_wu4])
-
-# b_data = BSON.load("data.bson")[:sa]
-
-# take 100 samples with a spacing of sample_interval
-# sample_array = [metropolis!(cut_g, cut_EL, ρ_epidemic, sample_interval; β=β, γ=γ, tsteps=tsteps, n_initial=n_initial, ν=1E4) for i in 1:100]
-#
-# s_ρ_wu = [s[3] for s in sample_array_wu]
-# s_ρ = [s[3] for s in sample_array]
-# println((mean(s_ρ_rand), mean(s_ρ_rand)+std(s_ρ_rand), mean(s_ρ_rand)-std(s_ρ_rand)))
-# println((mean(s_ρ_wu), mean(s_ρ_wu)+std(s_ρ_wu), mean(s_ρ_wu)-std(s_ρ_wu)))
-# println((mean(s_ρ), mean(s_ρ)+std(s_ρ), mean(s_ρ)-std(s_ρ)))
-
-# I = [mean([epidemic(s[1], rand(1:nv(g),n_initial), tsteps; β=β, γ=γ)[1] for i in 1:1000]) for s in b_data]
-# mean(I)
-# cut_g_r, cut_EL_r = initialize_graph!(g, Int(round(cut_ratio * ne(g))))
-# I_rand = [mean([epidemic(initialize_graph!(g, Int(round(cut_ratio * ne(g))))[1], rand(1:nv(g),n_initial), tsteps; β=β, γ=γ)[1] for i in 1:1000]) for i in 1:100]
-# mean(I_rand)
