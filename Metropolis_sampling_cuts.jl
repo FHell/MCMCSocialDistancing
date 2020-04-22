@@ -19,7 +19,11 @@ end
 MC step function, restores an edge and cuts a new one, then evaluates ρ_func
     on the newly cut graph.
 """
-function mc_step_SIR!(cut_g, cut_EL, ρ_func, ρ_old; ν=1, reject_counter = [1], args...)
+function mc_step_SIR!(cut_g, cut_EL, ρ_func, ρ_old; ν=1, reject_counter = [1], resamp_old = false, args...)
+    if resamp_old
+        ρ_old = ρ_func(cut_g; args...)
+    end
+    
     ind = rand(1:length(cut_EL))
     restore_edge = cut_EL[ind] # Pick a random edge from the list of cut edges
     new_cut_edge = rand(collect(edges(cut_g))) # And a random edge from the graph
