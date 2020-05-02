@@ -94,7 +94,7 @@ max_infected_mean /= N
 
 
 
-
+#### OLD STUFF
 
 """
 This functions executes a simulated annealing of a given graph.
