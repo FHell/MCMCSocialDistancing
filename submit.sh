@@ -6,9 +6,9 @@
 #SBATCH --output=MCMCepi-%j-%N.out
 #SBATCH --error=MCMCepi-%j-%N.err
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
+#SBATCH --ntasks-per-node=16
 #SBATCH --mail-type=END
-#SBATCH --mail-user=hellmann
+#SBATCH --mail-user=opfeffer
 
 echo "------------------------------------------------------------"
 echo "SLURM JOB ID: $SLURM_JOBID"
@@ -17,4 +17,4 @@ echo "------------------------------------------------------------"
 
 module load julia/1.3.0
 module load hpc/2015
-julia sample_inverse_mean_mi.jl
+julia -p 16 sample_inverse_mean_mi.jl
