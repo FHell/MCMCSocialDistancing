@@ -9,6 +9,7 @@ Pkg.activate(".")
 @everywhere using Statistics
 @everywhere include("SIR-discrete-time_fh.jl")
 @everywhere include("Metropolis_sampling_cuts.jl")
+using BenchmarkTools
 
 # function ρ_epidemic(g; β, γ, tsteps, n_initial, args...)
 #     exp(-1. * mean([epidemic(g, rand(1:nv(g),n_initial), tsteps; β=β, γ=γ)[1] for i in 1:1000])/30.)
