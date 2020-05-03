@@ -21,7 +21,7 @@ function ρ_epidemic(g; β, γ, tsteps, n_initial, args...)
     exp(-1. * mean(es)/30.)
 end
 function ρ_epidemic1(g; β, γ, tsteps, n_initial, args...)
-    es = zeros(1000)
+    es = zeros(10000)
     Threads.@threads for i in 1:10000
         es[i] = epidemic(g, rand(1:nv(g),n_initial), tsteps; β=β, γ=γ)[1]
     end
