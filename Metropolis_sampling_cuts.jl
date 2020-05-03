@@ -57,5 +57,5 @@ function metropolis!(cut_g::AbstractGraph, cut_EL, ρ_func::Function, mc_steps::
         ρ = mc_step!(cut_g, cut_EL, ρ_func, ρ; reject_counter=reject_counter, args...)
     end
     println("Rejected $(reject_counter[1]) out of $mc_steps Steps")
-    cut_g, cut_EL, ρ
+    copy(cut_g), copy(cut_EL), ρ
 end
