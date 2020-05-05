@@ -64,7 +64,7 @@ sample_array_wu5 = [metropolis!(cut_g, cut_EL, ρ_epidemic, sample_interval; β=
 using BSON
 
 i = 1
-while isfile("data_$i.bson")
+while isfile("data_v4_$i.bson")
     global i
     i += 1
 end
