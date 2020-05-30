@@ -17,9 +17,10 @@ function step!(g, I, has_not_been_I, β, γ)
     end
 end
 
+## g is the graph, I_init is the initially infected people, N is the number of time steps to be executed, better would be to set a condition to end the loop, when length(I)==0
 function epidemic(g, I_init, N; β=0.01, γ=0.2)
     I = copy(I_init)
-    hnbi = trues(nv(g))
+    hnbi = trues(nv(g)) #hnbi = has not been infected
     for v in I
         hnbi[v] = false
     end
